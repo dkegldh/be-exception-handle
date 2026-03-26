@@ -6,6 +6,7 @@ import com.springboot.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -48,6 +49,11 @@ public class GlobalExceptionAdvice {
     }
 
     // TODO GlobalExceptionAdvice 기능 추가 2
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public ErrorResponse handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        return ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
     // TODO GlobalExceptionAdvice 기능 추가 3
 }
