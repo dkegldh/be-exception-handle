@@ -1,15 +1,18 @@
 package com.springboot.advice;
 
 import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
 import com.springboot.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
@@ -37,8 +40,11 @@ public class GlobalExceptionAdvice {
         System.out.println(e.getMessage());
 
         // TODO GlobalExceptionAdvice 기능 추가 1
-        return new ResponseEntity<>(HttpStatus.valueOf(e.getExceptionCode()
-                .getStatus()));
+        ExceptionCode exceptionCode = e.getExceptionCode();
+
+        ErrorResponse response = ErrorResponse.of(exceptionCode);
+
+        return new ResponseEntity<>(response, HttpStatus.valueOf(exceptionCode.getStatus()));
     }
 
     // TODO GlobalExceptionAdvice 기능 추가 2
