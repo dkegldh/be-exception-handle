@@ -56,4 +56,9 @@ public class GlobalExceptionAdvice {
     }
 
     // TODO GlobalExceptionAdvice 기능 추가 3
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleException(Exception e) {
+        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
